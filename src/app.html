@@ -3,10 +3,63 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.png" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+		<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+		<meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+		<link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
+		<meta http-equiv="origin-trial" content="TODO_TOKEN_HERE" />
+		<link rel="shortcut icon" href="/static.deconext.social/favicon.png" />
 		%sveltekit.head%
+		<link href="/static.deconext.social/static/css/main.cd991005.chunk.css" rel="stylesheet" />
 	</head>
 	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">%sveltekit.body%</div>
+		<noscript>You need to enable JavaScript to run this app.</noscript>
+		<div id="app">%sveltekit.body%</div>
+		<div
+			class="AppFailHandler"
+			style="
+				position: fixed;
+				display: none;
+				align-items: center;
+				justify-content: center;
+				width: 100vw;
+				height: 100vh;
+				flex-direction: column;
+			"
+		>
+			<h1>Oops, something went wrong ...</h1>
+			<button>Reload app</button>
+		</div>
+		<script>
+			window.addEventListener(
+				'error',
+				function (e) {
+					let t = e.filename;
+					if (
+						e.target &&
+						e.target.outerHTML &&
+						e.target.outerHTML.indexOf('/static/js/main') > -1
+					) {
+						const e = document.querySelector('.AppFailHandler');
+						if (e) {
+							e.style.display = 'flex';
+							const t = e.querySelector('button');
+							t &&
+								t.addEventListener('click', () => {
+									navigator.serviceWorker.getRegistration().then(function (e) {
+										e
+											? e.unregister().then(function () {
+													window.location.reload(!0);
+											  })
+											: window.location.reload(!0);
+									});
+								});
+						}
+					}
+					console.log(e), console.log(t);
+				},
+				!0
+			);
+		</script>
 	</body>
 </html>
